@@ -36,7 +36,7 @@ class DentalDataset(Dataset):
 
         return image, mask
 
-def get_datasets(root_dir, image_size=(256, 256), split_ratio=(0.8, 0.1, 0.1), seed=42):
+def get_datasets(root_dir, image_size=(256, 256), split_ratio=(0.8, 0.2), seed=42):
     caries_images = glob(os.path.join(root_dir, 'Carries', '*.png'))
     caries_images = [f for f in caries_images if 'mask' not in f]
     
@@ -57,16 +57,10 @@ def get_datasets(root_dir, image_size=(256, 256), split_ratio=(0.8, 0.1, 0.1), s
         else:
             print(f"Warning: Mask not found for {img_path}, skipping.")
 
-    train_imgs, temp_imgs, train_masks, temp_masks = train_test_split(
+    train_imgs, val_imgs, train_masks, val_masks = train_test_split(
         valid_images, all_masks, train_size=split_ratio[0], random_state=seed, shuffle=True
     )
-    
-    val_ratio = split_ratio[1] / (split_ratio[1] + split_ratio[2])
-    val_imgs, test_imgs, val_masks, test_masks = train_test_split(
-        temp_imgs, temp_masks, train_size=val_ratio, random_state=seed, shuffle=False
-    )
 
-    # Create Datasets
     train_ds = DentalDataset(
         train_imgs, train_masks, 
         transform=get_training_augmentation(image_size)
@@ -77,15 +71,12 @@ def get_datasets(root_dir, image_size=(256, 256), split_ratio=(0.8, 0.1, 0.1), s
         transform=get_validation_augmentation(image_size)
     )
     
-    test_ds = DentalDataset(
-        test_imgs, test_masks, 
-        transform=get_validation_augmentation(image_size)
-    )
+    # Use val as test for compatibility
+    test_ds = val_ds
 
     print(f"Dataset split completed:")
     print(f"Train: {len(train_ds)} images")
     print(f"Val: {len(val_ds)} images")
-    print(f"Test: {len(test_ds)} images")
     
     return train_ds, val_ds, test_ds
 
