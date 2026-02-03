@@ -45,8 +45,7 @@ task.md
 implementation_plan.md
 walkthrough.md
 
-# Streamlit and verification
-streamlit_app.py
+# Verification scripts
 verify_*.py
 
 # OS
