@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Logs
+logs/
+*.log
+
+# Dataset folders
+Carries/
+Normal/
+
+# Model checkpoints
+checkpoints/
+*.pth
+
+# Results and reports
+results/
+*.csv
+evaluation_report*.csv
+
+# PPT and presentations
+ppt/
+ppt.zip
+*.pdf
+
+# Project specific
+brain/
+.gemini/
+
+# Documentation
+info.md
+task.md
+implementation_plan.md
+walkthrough.md
+
+# Streamlit and verification
+streamlit_app.py
+verify_*.py
+
+# OS
+.DS_Store
+Thumbs.db
